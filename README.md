@@ -1,0 +1,2 @@
+# .zsh
+mo-zsh
