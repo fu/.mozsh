@@ -8,7 +8,7 @@
 #   by C. Fufezan et al.
 
 
-local LOCAL_GIT_REPO="$HOME/.zsh_git"
+local LOCAL_GIT_REPO="$HOME/.zsh"
 
 #First we source core and zsh option
 
