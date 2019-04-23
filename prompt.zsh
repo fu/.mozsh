@@ -16,14 +16,14 @@ SAMUEL_L_IPSUM=${SAMUEL_L_IPSUM:-Look, just because I don't be givin' no man a f
 # Show all 256 colors with color number
 function spectrum_ls() {
   for code in {000..255}; do
-    print -P -- "$code: %{$FG[$code]%}$SAMUEL_L_IPSUM%{$reset_color%}"
+    echo "$code: %{$FG[$code]%}$SAMUEL_L_IPSUM%{$reset_color%}"
   done
 }
 
 # Show all 256 colors where the background is set to specific color
 function spectrum_bls() {
   for code in {000..255}; do
-    print -P -- "$code: %{$BG[$code]%}$SAMUEL_L_IPSUM%{$reset_color%}"
+    echo "$code: %{$BG[$code]%}$SAMUEL_L_IPSUM%{$reset_color%}"
   done
 }
 
@@ -34,7 +34,7 @@ function git_branch_info() {
     else
         git_branch='      '
     fi
-    print -P -- "%{$git_branch%}"
+    echo $git_branch
 }
 
 function virtual_env_project_info() {
@@ -43,7 +43,7 @@ function virtual_env_project_info() {
     else
         virtual_env_basename=' '
     fi
-    print -P -- "%{$virtual_env_basename%}"
+    echo $virtual_env_basename
 }
 
 function su_or_not() {
@@ -52,7 +52,7 @@ function su_or_not() {
     else
         su_status="%{$FG[GREY]%}$%{$FX[reset]%}"
     fi
-    echo "%{$su_status%}"
+    echo $su_status
 }
 
 #A=Black
@@ -83,7 +83,7 @@ export LSCOLORS=ExFxBxDxCxegedabagahad
 #               +-Dir
 # <<>> http://geoff.greer.fm/lscolors/ <<>>
 
-PROMPT=$'%{$FG[RED]%}%U %u%{$FX[reset]%}%n%{$FG[GREEN]%}@%{$FG[RED]%}%m%{$FX[reset]%}:%{$FG[GREEN]%}%~
+PROMPT=$'%{$FG[RED]%}%U %u%{$FX[reset]%}%n%{$FG[GREEN]%}@%{$FG[RED]%}%m%{$FX[reset]%}: %{$FG[GREEN]%}%~
     %{$FG[BLUE]%}%i %{$FG[GREEN]%}$(git_branch_info)%{$FX[reset]%} %{$FG[GREY]%}$(su_or_not)%{$FX[reset]%} '
 
 RPS1=$'%{$FG[BLUE]%}$(virtual_env_project_info) %{$FG[RED]%}[%{$FX[reset]%}%*%{$FG[RED]%}]%{$FX[reset]%}'
