@@ -32,7 +32,7 @@ done
 
 
 function show_message() {
-    echo "%{$FG[BLUE]%}[%{$FX[reset]%}%  - %{$FG[BLUE]%}]%{$FX[reset]%} %{$1%}"
+    print -P -- '%{$FG[BLUE]%}[%{$FX[reset]%}%  - %{$FG[BLUE]%}]%{$FX[reset]%} %{$1%}'
 }
 
 HISTSIZE=500000
