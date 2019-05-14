@@ -19,4 +19,6 @@ PATH="$PATH:/usr/local/texlive/2015/bin/x86_64-darwin"
 PATH="/Library/Frameworks/Python.framework/Versions/Current/bin:${PATH}"
 # Xcode
 PATH="/Developer/usr/bin:/Developer/usr/sbin:${PATH}"
+#ntsf-3g
+PATH="/usr/local/opt/gettext/bin:"$PATH
 export PATH

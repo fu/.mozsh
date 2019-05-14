@@ -25,3 +25,7 @@ for zsh_addon in $LOCAL_GIT_REPO/(^_*).zsh(.);
 if [[ -a ~/.zshrc_user ]]; then
     source ~/.zshrc_user
 fi
+
+if [[ -a /etc/zprofile ]]; then
+    source /etc/zprofile
+fi

@@ -11,3 +11,6 @@ if [[ -a /Library/Frameworks/Python.framework/Versions/3.7/bin/virtualenvwrapper
     source /Library/Frameworks/Python.framework/Versions/3.7/bin/virtualenvwrapper.sh
 fi
 
+export DYLD_LIBRARY_PATH=/usr/local/oracle/instantclient_18_1:$DYLD_LIBRARY_PATH
+export LDFLAGS="-L/usr/local/opt/gettext/lib"
+export CPPFLAGS="-I/usr/local/opt/gettext/include"
