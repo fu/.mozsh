@@ -9,5 +9,5 @@ Installation
 ------------
 
     git clone https://github.com/fu/.mozsh.git ~/.mozsh
-    ln -s ~/.mogit/.zshrc ~/
+    ln -s ~/.mozsh/.zshrc ~/
 
