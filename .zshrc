@@ -29,3 +29,5 @@ fi
 if [[ -a /etc/zprofile ]]; then
     source /etc/zprofile
 fi
+export PATH="/usr/local/opt/icu4c/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/sbin:$PATH"

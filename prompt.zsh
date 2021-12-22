@@ -28,6 +28,12 @@ function spectrum_bls() {
 }
 
 function git_branch_info() {
+    git_branch=`git rev-parse --abbrev-ref HEAD 2>/dev/null`
+    echo $git_branch
+}
+
+
+function git_branch_info_bugged() {
     ref=`git branch` 2>|/dev/null
     if [[ -n ${ref} ]]; then
         git_branch=`echo $ref | grep '^\*' | sed 's=\* ==g'`
