@@ -40,7 +40,35 @@ $function msconvert() {
         # org_cmd="docker run -it -v /Volumes/b.dump:/Volumes/b.dump harbor.gsk.com/cz_cms/base-images/proteowizard:3.0.20287 wine msconvert --zlib --inten32 --gzip /Volumes/b.dump/ms-data/DTB-IAA/08041_F1_R1_P0285945A01_TMT10.raw -o /Volumes/b.dump/ms-data/DTB-IAA"
         folder=$PWD/$1:h
         baseimage="harbor.gsk.com/cz_cms/base-images/proteowizard:3.0.20287"
-        echo "docker run -it -v $folder:$folder --rm $baseimage wine msconvert --zlib --32 $1 -o $folder"
-        docker run -it -v $folder:$folder $baseimage wine msconvert --zlib --32 --gzip $PWD/$1 -o $folder
+        echo "docker run -it --rm -v $folder:$folder $baseimage wine msconvert --zlib --32 --gzip $1 -o $folder"
+        docker run -it --rm -v $folder:$folder $baseimage wine msconvert --zlib --32 --gzip $PWD/$1 -o $folder
     fi
+}
+
+
+termtitle() {
+    case "$TERM" in
+        rxvt*|xterm*|nxterm|gnome|screen|screen-*|st|st-*)
+            local prompt_host="${(%):-%m}"
+            local prompt_user="${(%):-%n}"
+            local prompt_char="${(%):-%~}"
+            case "$1" in
+                precmd)
+                    printf '\e]0;%s@%s: %s\a' "${prompt_user}" "${prompt_host}" "${prompt_char}"
+                ;;
+                preexec)
+                    printf '\e]0;%s [%s@%s: %s]\a' "$2" "${prompt_user}" "${prompt_host}" "${prompt_char}"
+                ;;
+            esac
+        ;;
+    esac
+}
+
+
+precmd() {
+    # Set terminal title.
+    # termtitle precmd
+
+    # Set optional git part of prompt.
+    # git_prompt
 }

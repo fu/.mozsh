@@ -1,5 +1,6 @@
 
 autoload -U compinit
+autoload -Uz vcs_info
 compinit
 bindkey '^h' history-incremental-search-backward
 bindkey "\e[1D;" beginning-of-line
@@ -11,6 +12,11 @@ bindkey "\e[1C;"  end-of-line
 #bindkey '^I' complete-word # complete on tab, leave expansion to _expand
 bindkey "[C" forward-word
 bindkey "[D" backward-word
+
+zstyle ':vcs_info:*' enable git hg
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:git*' formats "%{${fg[cyan]}%}[%{${fg[green]}%}%s%{${fg[cyan]}%}][%{${fg[blue]}%}%r/%S%%{${fg[cyan]}%}][%{${fg[blue]}%}%b%{${fg[yellow]}%}%m%u%c%{${fg[cyan]}%}]%{$reset_color%}"
+
 
 zstyle ':completion:*' hosts off
 zstyle ':completion::complete:*' use-cache on
@@ -85,3 +91,5 @@ zstyle ':completion:newest-files:*' file-patterns '*~.*(omN[1,12])'
 zstyle ':completion:newest-files:*' menu select yes
 zstyle ':completion:newest-files:*' sort false
 zstyle ':completion:newest-files:*' matcher-list 'b:=*' # important
+
+

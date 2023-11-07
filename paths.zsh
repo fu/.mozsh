@@ -1,6 +1,7 @@
 # PATHs
 
 PATH="$HOME/bin:$HOME/bin/mongodb:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin:$PATH"
+PATH="$PATH:/usr/local/opt/libpq/bin:/opt/homebrew/bin"
 # PATH="$PATH:/Library/Frameworks/Python.framework/Versions/3.2/bin"
 # PATH="$PATH:/usr/local/mysql/bin:/Volumes/Users/fu/bin/O_V10/data"
 # PATH="$PATH:/usr/X11R6/bin"

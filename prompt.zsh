@@ -28,7 +28,7 @@ function spectrum_bls() {
 }
 
 function git_branch_info() {
-    git_branch=`git rev-parse --abbrev-ref HEAD 2>/dev/null`
+    git_branch=`git branch --show-current 2>/dev/null`
     echo $git_branch
 }
 
@@ -42,56 +42,139 @@ function git_branch_info_bugged() {
     fi
     echo $git_branch
 }
+git_prompt() {
+    if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        unset git_prompt
+        return 0
+    fi
+
+    local git_status_dirty git_status_stash git_branch
+
+    if [ "$(git --no-optional-locks status --untracked-files='no' --porcelain)" ]; then
+        git_status_dirty='%F{green}*'
+    else
+        unset git_status_dirty
+    fi
+
+    if [ "$(git stash list)" ]; then
+        git_status_stash="%F{yellow}▲"
+    else
+        unset git_status_stash
+    fi
+
+    git_branch="$(git symbolic-ref HEAD 2>/dev/null)"
+    git_branch="${git_branch#refs/heads/}"
+
+    if [ "${#git_branch}" -ge 24 ]; then
+        git_branch="${git_branch:0:21}..."
+    fi
+
+    git_branch="${git_branch:-no branch}"
+    git_tag="${git describe --tags}"
+    git_prompt=" %F{blue}[%F{253}${git_branch}${git_status_dirty}${git_status_stash}%F{blue}]"
+    echo $git_prompt
+}
+
+git_prompt_2() {
+    if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        unset git_prompt
+        return 0
+    fi
+
+    local git_status_dirty git_status_stash git_branch
+
+    n_not_staged_for_commit="$(git --no-optional-locks status --untracked-files='no' --porcelain | wc -l)"
+    n_not_staged_for_commit="$(($n_not_staged_for_commit+0))"
+    n_committed_files="0"
+    # git_tag="$(git describe --tags --abbrev=0)"
+
+    git_branch="$(git symbolic-ref HEAD 2>/dev/null)"
+    git_branch="${git_branch#refs/heads/}"
+    remote_branch="$(git for-each-ref --format='%(upstream:short)' refs/heads/$git_branch)"
+    diffs="$(git rev-list --count --left-right $git_branch...$remote_branch)"
+    diffs=${=diffs}
+    n_behind_remote=$diffs[3]
+    n_ahead_of_remote=$diffs[1]
+    git_tag="$(git describe --tags)"
+
+    # git_prompt=" %F{blue}[%F{253}${git_branch}${no_uncommited_files}${git_status_stash} +${diffs[1]} -${diffs[3]} %F{blue}]"
+    git_prompt="🌿 %{$FG[GREEN]%}${git_branch} %{$FG[008]%}${git_tag} ∫%{$FG[GREEN]%}${n_committed_files}%{$FX[reset]%}|%{$FG[RED]%}${n_not_staged_for_commit}%{$FX[reset]%} %{$FG[RED]%}↧${n_behind_remote} %{$FG[YELLOW]%}↥${n_ahead_of_remote}%{$FX[reset]%}"
+
+    echo $git_prompt
+}
+
+simple_git_python () {
+    info=`echo $PWD | python3 ~/bin/git_status_parser.py`
+    info=(${(s/ /)info})                                                                                                      
+    # # one git call to rule them all
+    # # {branch} {n_committed_files} {n_not_staged_for_commit} {n_untracked_files}
+    git_tag=$info[2]
+    git_branch=$info[4]
+    n_not_staged_for_commit=$info[6]
+    n_committed_files=$info[8]
+    # n_untracked_files=$info[4]
+    n_ahead_of_remote=$info[10]
+    n_behind_remote=$info[12]
+
+    # # git_prompt="${info[1]}"
+    git_prompt="%{$FG[GREEN]%}${git_branch} %{$FG[008]%}${git_tag} %{$FG[GREEN]%}${n_committed_files}%{$FX[reset]%}|%{$FG[RED]%}${n_not_staged_for_commit}%{$FX[reset]%} %{$FG[RED]%}${n_behind_remote} %{$FG[YELLOW]%}${n_ahead_of_remote}%{$FX[reset]%}"
+    echo $git_prompt
+}
 
 function virtual_env_project_info() {
     if [[ -n $VIRTUAL_ENV  ]];then
         virtual_env_basename=`echo $VIRTUAL_ENV:t`
     else
-        virtual_env_basename=' '
+        virtual_env_basename=''
     fi
     echo $virtual_env_basename
 }
 
 function su_or_not() {
     if [[ $UID -eq 0 ]];then
-        su_status="%{$FG[RED]%}%{$FX[blink]%}#%{$FX[reset]%}"
+        su_status="%{$FG[RED]%}%{$FX[blink]%}#"
     else
-        su_status="%{$FG[GREY]%}$%{$FX[reset]%}"
+        su_status="%{$FG[GREY]%}$"
     fi
     echo $su_status
 }
 
-#A=Black
-#B=Red
-#C=Green
-#D=Brown
-#E=Blue
-#F=Purple
-#G=Cyan
-#H=Gray
-#I=Transparent
-#X=None
-#Capital letters Bold
-export CLICOLOR=1
-#               -+-+-+-+-+-+-+-+-+-+-+
-export LSCOLORS=ExFxBxDxCxegedabagahad
-#               ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
-#               | | | | | | | | | | +- dir writeothers NOsticky
-#               | | | | | | | | | +- dir writeothers sticky
-#               | | | | | | | | +-exe setguid
-#               | | | | | | | +-exe setuid
-#               | | | | | | +-char_special
-#               | | | | | +-block special
-#               | | | | +-Executable
-#               | | | +-Pipe
-#               | | +-Socket
-#               | +-Symbolic link
-#               +-Dir
-# <<>> http://geoff.greer.fm/lscolors/ <<>>
+function setprompt() {
+    #A=Black
+    #B=Red
+    #C=Green
+    #D=Brown
+    #E=Blue
+    #F=Purple
+    #G=Cyan
+    #H=Gray
+    #I=Transparent
+    #X=None
+    #Capital letters Bold
+    export CLICOLOR=1
+    #               -+-+-+-+-+-+-+-+-+-+-+
+    export LSCOLORS=ExFxBxDxCxegedabagahad
+    #               ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
+    #               | | | | | | | | | | +- dir writeothers NOsticky
+    #               | | | | | | | | | +- dir writeothers sticky
+    #               | | | | | | | | +-exe setguid
+    #               | | | | | | | +-exe setuid
+    #               | | | | | | +-char_special
+    #               | | | | | +-block special
+    #               | | | | +-Executable
+    #               | | | +-Pipe
+    #               | | +-Socket
+    #               | +-Symbolic link
+    #               +-Dir
+    # <<>> http://geoff.greer.fm/lscolors/ <<>>
 
-PROMPT=$'%{$FG[RED]%}%U %u%{$FX[reset]%}%n%{$FG[GREEN]%}@%{$FG[RED]%}%m%{$FX[reset]%}: %{$FG[GREEN]%}%~
-    %{$FG[BLUE]%}%i %{$FG[GREEN]%}$(git_branch_info)%{$FX[reset]%} %{$FG[GREY]%}$(su_or_not)%{$FX[reset]%} '
-
-RPS1=$'%{$FG[BLUE]%}$(virtual_env_project_info) %{$FG[RED]%}[%{$FX[reset]%}%*%{$FG[RED]%}]%{$FX[reset]%}'
-RPS0=$'>>>'
-RPS2=$'><><>>'
+#     PROMPT='%{$FG[RED]%}%U %u %{$FX[reset]%}%n%{$FG[GREEN]%}@%{$FG[RED]%}%m%{$FX[reset]%}:%{$FG[GREEN]%}~
+# %{$FX[reset]%} %{$FG[GREY]%}%{$(su_or_not)%}%{$FX[reset]%} '
+    PROMPT='%{$FG[RED]%}%U %u %{$FX[reset]%}%n%{$FG[GREEN]%}@%{$FG[RED]%}%m%{$FX[reset]%}:%{$FG[GREEN]%}%~
+%{$FG[GREEN]%}%#%{$FG[RED]%}> %{$FX[reset]%}'
+    # RPROMPT=$'${vcs_info_msg_0_}'
+    RPROMPT=$'$(git_prompt_2) %{$FG[BLUE]%}$(virtual_env_project_info) %{$FG[008]%}%*%{$FX[reset]%}'
+    # RPS0=$'>>>'
+    # RPS2=$'><><>>'
+}
+setprompt
