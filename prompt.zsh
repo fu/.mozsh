@@ -83,7 +83,7 @@ git_prompt_2() {
         return 0
     fi
 
-    local git_status_dirty git_status_stash git_branch
+    local git_status_dirty git_status_stash git_branch n_untracked_files
 
     # Number of files with staged changes
     local n_staged_files
@@ -94,6 +94,11 @@ git_prompt_2() {
     local n_changed_tracked_files
     n_changed_tracked_files="$(git --no-optional-locks status --untracked-files='no' --porcelain | wc -l | tr -d ' ')"
     n_changed_tracked_files="$((n_changed_tracked_files + 0))" # Ensure it's a number
+
+    # Number of untracked files
+    n_untracked_files="$(git ls-files --others --exclude-standard | wc -l | tr -d ' ')"
+    n_untracked_files="$((n_untracked_files + 0))" # Ensure it's a number
+
 
     # Current branch name, handles detached HEAD
     git_branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null || echo "DETACHED")
@@ -106,7 +111,11 @@ git_prompt_2() {
     n_ahead_of_remote=$diffs[1]
     git_tag="$(git describe --tags)"
 
-    local prompt_content="🌿 %{$FG[GREEN]%}${git_branch} %{$FG[008]%}${git_tag} ∫%{$FG[GREEN]%}${n_staged_files}%{$FX[reset]%}|%{$FG[RED]%}${n_changed_tracked_files}%{$FX[reset]%} %{$FG[RED]%}↧${n_behind_remote} %{$FG[YELLOW]%}↥${n_ahead_of_remote}%{$FX[reset]%}"
+    local prompt_content="🌿 %{$FG[GREEN]%}${git_branch} %{$FG[008]%}${git_tag}"
+    prompt_content+=" ∫%{$FG[GREEN]%}${n_staged_files}%{$FX[reset]%}" # Staged
+    prompt_content+="|%{$FG[RED]%}${n_changed_tracked_files}%{$FX[reset]%}" # Changed (tracked)
+    prompt_content+="|%{$FG[CYAN]%}?${n_untracked_files}%{$FX[reset]%}" # Untracked
+    prompt_content+=" %{$FG[RED]%}↧${n_behind_remote} %{$FG[YELLOW]%}↥${n_ahead_of_remote}%{$FX[reset]%}" # Behind/Ahead
     echo "$prompt_content"
 }
 
