@@ -27,99 +27,106 @@ function spectrum_bls() {
   done
 }
 
-function git_branch_info() {
-    git_branch=`git branch --show-current 2>/dev/null`
-    echo $git_branch
-}
+# function git_branch_info() {
+#     git_branch=`git branch --show-current 2>/dev/null`
+#     echo $git_branch
+# }
 
 
-function git_branch_info_bugged() {
-    ref=`git branch` 2>|/dev/null
-    if [[ -n ${ref} ]]; then
-        git_branch=`echo $ref | grep '^\*' | sed 's=\* ==g'`
-    else
-        git_branch='      '
-    fi
-    echo $git_branch
-}
-git_prompt() {
-    if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-        unset git_prompt
-        return 0
-    fi
+# function git_branch_info_bugged() {
+#     ref=`git branch` 2>|/dev/null
+#     if [[ -n ${ref} ]]; then
+#         git_branch=`echo $ref | grep '^\*' | sed 's=\* ==g'`
+#     else
+#         git_branch='      '
+#     fi
+#     echo $git_branch
+# }
 
-    local git_status_dirty git_status_stash git_branch
+# git_prompt() {
+#     if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+#         unset git_prompt
+#         return 0
+#     fi
 
-    if [ "$(git --no-optional-locks status --untracked-files='no' --porcelain)" ]; then
-        git_status_dirty='%F{green}*'
-    else
-        unset git_status_dirty
-    fi
+#     local git_status_dirty git_status_stash git_branch
 
-    if [ "$(git stash list)" ]; then
-        git_status_stash="%F{yellow}▲"
-    else
-        unset git_status_stash
-    fi
+#     if [ "$(git --no-optional-locks status --untracked-files='no' --porcelain)" ]; then
+#         git_status_dirty='%F{green}*'
+#     else
+#         unset git_status_dirty
+#     fi
 
-    git_branch="$(git symbolic-ref HEAD 2>/dev/null)"
-    git_branch="${git_branch#refs/heads/}"
+#     if [ "$(git stash list)" ]; then
+#         git_status_stash="%F{yellow}▲"
+#     else
+#         unset git_status_stash
+#     fi
 
-    if [ "${#git_branch}" -ge 24 ]; then
-        git_branch="${git_branch:0:21}..."
-    fi
+#     git_branch="$(git symbolic-ref HEAD 2>/dev/null)"
+#     git_branch="${git_branch#refs/heads/}"
 
-    git_branch="${git_branch:-no branch}"
-    git_tag="${git describe --tags}"
-    git_prompt=" %F{blue}[%F{253}${git_branch}${git_status_dirty}${git_status_stash}%F{blue}]"
-    echo $git_prompt
-}
+#     if [ "${#git_branch}" -ge 24 ]; then
+#         git_branch="${git_branch:0:21}..."
+#     fi
+
+#     git_branch="${git_branch:-no branch}"
+#     git_tag="${git describe --tags}"
+#     git_prompt=" %F{blue}[%F{253}${git_branch}${git_status_dirty}${git_status_stash}%F{blue}]"
+#     echo $git_prompt
+# }
 
 git_prompt_2() {
     if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-        unset git_prompt
+        # Unset global 'git_prompt' if not in a git repo, in case other parts of the config use it.
+        unset git_prompt 
         return 0
     fi
 
     local git_status_dirty git_status_stash git_branch
 
-    n_not_staged_for_commit="$(git --no-optional-locks status --untracked-files='no' --porcelain | wc -l)"
-    n_not_staged_for_commit="$(($n_not_staged_for_commit+0))"
-    n_committed_files="0"
-    # git_tag="$(git describe --tags --abbrev=0)"
+    # Number of files with staged changes
+    local n_staged_files
+    n_staged_files="$(git diff --cached --name-only --no-renames | wc -l | tr -d ' ')"
+    n_staged_files="$((n_staged_files + 0))" # Ensure it's a number
 
-    git_branch="$(git symbolic-ref HEAD 2>/dev/null)"
-    git_branch="${git_branch#refs/heads/}"
-    remote_branch="$(git for-each-ref --format='%(upstream:short)' refs/heads/$git_branch)"
+    # Number of tracked files with any changes (staged or unstaged)
+    local n_changed_tracked_files
+    n_changed_tracked_files="$(git --no-optional-locks status --untracked-files='no' --porcelain | wc -l | tr -d ' ')"
+    n_changed_tracked_files="$((n_changed_tracked_files + 0))" # Ensure it's a number
+
+    # Current branch name, handles detached HEAD
+    git_branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null || echo "DETACHED")
+    local remote_branch
+    remote_branch="$(git for-each-ref --format='%(upstream:short)' "refs/heads/$git_branch" 2>/dev/null)"
+
     diffs="$(git rev-list --count --left-right $git_branch...$remote_branch)"
     diffs=${=diffs}
     n_behind_remote=$diffs[3]
     n_ahead_of_remote=$diffs[1]
     git_tag="$(git describe --tags)"
 
-    # git_prompt=" %F{blue}[%F{253}${git_branch}${no_uncommited_files}${git_status_stash} +${diffs[1]} -${diffs[3]} %F{blue}]"
-    git_prompt="🌿 %{$FG[GREEN]%}${git_branch} %{$FG[008]%}${git_tag} ∫%{$FG[GREEN]%}${n_committed_files}%{$FX[reset]%}|%{$FG[RED]%}${n_not_staged_for_commit}%{$FX[reset]%} %{$FG[RED]%}↧${n_behind_remote} %{$FG[YELLOW]%}↥${n_ahead_of_remote}%{$FX[reset]%}"
-
-    echo $git_prompt
+    local prompt_content="🌿 %{$FG[GREEN]%}${git_branch} %{$FG[008]%}${git_tag} ∫%{$FG[GREEN]%}${n_staged_files}%{$FX[reset]%}|%{$FG[RED]%}${n_changed_tracked_files}%{$FX[reset]%} %{$FG[RED]%}↧${n_behind_remote} %{$FG[YELLOW]%}↥${n_ahead_of_remote}%{$FX[reset]%}"
+    echo "$prompt_content"
 }
 
-simple_git_python () {
-    info=`echo $PWD | python3 ~/bin/git_status_parser.py`
-    info=(${(s/ /)info})                                                                                                      
-    # # one git call to rule them all
-    # # {branch} {n_committed_files} {n_not_staged_for_commit} {n_untracked_files}
-    git_tag=$info[2]
-    git_branch=$info[4]
-    n_not_staged_for_commit=$info[6]
-    n_committed_files=$info[8]
-    # n_untracked_files=$info[4]
-    n_ahead_of_remote=$info[10]
-    n_behind_remote=$info[12]
+# simple_git_python () {
+#     info=`echo $PWD | python3 ~/bin/git_status_parser.py`
+#     info=(${(s/ /)info})
+#     # # one git call to rule them all
+#     # # {branch} {n_committed_files} {n_not_staged_for_commit} {n_untracked_files}
+#     git_tag=$info[2]
+#     git_branch=$info[4]
+#     n_not_staged_for_commit=$info[6]
+#     n_committed_files=$info[8]
+#     # n_untracked_files=$info[4]
+#     n_ahead_of_remote=$info[10]
+#     n_behind_remote=$info[12]
 
-    # # git_prompt="${info[1]}"
-    git_prompt="%{$FG[GREEN]%}${git_branch} %{$FG[008]%}${git_tag} %{$FG[GREEN]%}${n_committed_files}%{$FX[reset]%}|%{$FG[RED]%}${n_not_staged_for_commit}%{$FX[reset]%} %{$FG[RED]%}${n_behind_remote} %{$FG[YELLOW]%}${n_ahead_of_remote}%{$FX[reset]%}"
-    echo $git_prompt
-}
+#     # # git_prompt="${info[1]}"
+#     git_prompt="%{$FG[GREEN]%}${git_branch} %{$FG[008]%}${git_tag} %{$FG[GREEN]%}${n_committed_files}%{$FX[reset]%}|%{$FG[RED]%}${n_not_staged_for_commit}%{$FX[reset]%} %{$FG[RED]%}${n_behind_remote} %{$FG[YELLOW]%}${n_ahead_of_remote}%{$FX[reset]%}"
+#     echo $git_prompt
+# }
 
 function virtual_env_project_info() {
     if [[ -n $VIRTUAL_ENV  ]];then

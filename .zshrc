@@ -8,7 +8,7 @@
 #   by C. Fufezan et al.
 
 
-local LOCAL_GIT_REPO="$HOME/.mozsh"
+local LOCAL_GIT_REPO="$HOME/.mozsh-vanilla"
 
 #First we source core and zsh option
 
@@ -26,23 +26,26 @@ if [[ -a ~/.zshrc_user ]]; then
     source ~/.zshrc_user
 fi
 
+# Sourcing /etc/zprofile here is generally not standard for .zshrc.
+# .zshrc is for interactive shells, while /etc/zprofile is for login shells.
+# If completion or other settings are conflicting, this might be a place to check.
+# Consider removing this if you don't have a specific need for it in every interactive shell.
 if [[ -a /etc/zprofile ]]; then
-    source /etc/zprofile
+    # source /etc/zprofile
 fi
+
 export PATH="/usr/local/opt/icu4c/bin:$PATH"
 export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/cf322940/.rd/bin:$PATH"
+export PATH="/Users/fu/.rd/bin:$PATH" # Assuming your username is 'fu' based on other paths
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
-### GKE Cloud
-
+# Google Cloud SDK - Prefer sourcing via brew --prefix
 source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
 source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/cf322940/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/cf322940/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/cf322940/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/cf322940/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+# The following lines for Google Cloud SDK are redundant if the brew --prefix versions above are working.
+# If you specifically need the version from Downloads, ensure the brew --prefix lines are commented out.
+# if [ -f '/Users/fu/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/fu/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+# if [ -f '/Users/fu/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/fu/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
