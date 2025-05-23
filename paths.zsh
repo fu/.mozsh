@@ -1,7 +1,7 @@
 # PATHs
 
 PATH="$HOME/bin:$HOME/bin/mongodb:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin:$PATH"
-PATH="$PATH:/usr/local/opt/libpq/bin:/opt/homebrew/bin"
+PATH="$PATH:/usr/local/opt/libpq/bin:$HOME/homebrew/bin"
 # PATH="$PATH:/Library/Frameworks/Python.framework/Versions/3.2/bin"
 # PATH="$PATH:/usr/local/mysql/bin:/Volumes/Users/fu/bin/O_V10/data"
 # PATH="$PATH:/usr/X11R6/bin"
@@ -24,6 +24,11 @@ PATH="$PATH:/usr/local/opt/libpq/bin:/opt/homebrew/bin"
 # PATH="/usr/local/opt/gettext/bin:"$PATH
 #mono
 PATH="/usr/local/Cellar/mono/6.6.0.161/lib/mono/2.0-api:"$PATH
+PATH=$PATH:$HOME/Library/Python/3.11/bin
+PATH=$PATH:$HOME/Library/Python/3.10/bin
+PATH=$PATH:$HOME/Library/Python/3.9/bin
+PATH=$PATH:$HOME/Library/Python/3.8/bin
+PATH=$PATH:$HOME/Library/Python/3.7/bin
 
 
 export PATH

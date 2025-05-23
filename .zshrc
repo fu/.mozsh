@@ -32,12 +32,17 @@ fi
 export PATH="/usr/local/opt/icu4c/bin:$PATH"
 export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/cf322940/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/cf322940/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/cf322940/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/cf322940/google-cloud-sdk/completion.zsh.inc'; fi
-
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/cf322940/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+### GKE Cloud
+
+source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/cf322940/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/cf322940/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/cf322940/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/cf322940/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
