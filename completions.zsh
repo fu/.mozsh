@@ -4,3 +4,6 @@ if [[ -n "$ZDOTDIR/.zcompdump" && (( "$ZDOTDIR/.zcompdump" -nt "$ZDOTDIR/.zcompi
 else
   compinit -C -i
 fi
+
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

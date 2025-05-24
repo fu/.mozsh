@@ -109,7 +109,7 @@ git_prompt_2() {
     diffs=${=diffs}
     n_behind_remote=$diffs[3]
     n_ahead_of_remote=$diffs[1]
-    git_tag="$(git describe --tags)"
+    git_tag="$(git describe --tags 2>/dev/null)"
 
     local prompt_content="🌿 %{$FG[GREEN]%}${git_branch} %{$FG[008]%}${git_tag}"
     prompt_content+=" ∫%{$FG[GREEN]%}${n_staged_files}%{$FX[reset]%}" # Staged
