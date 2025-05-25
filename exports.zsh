@@ -26,3 +26,9 @@ export REQUESTS_CA_BUNDLE="/Users/cf322940/.virtualenvs/fpreppy3-p311/lib/python
 # export SSL_CERT_FILE=${CERT_PATH} 
 # export SSL_CERT_DIR=${CERT_DIR}
 # export REQUESTS_CA_BUNDLE=${CERT_PATH} 
+=======
+# Talos installation
+export TALOSCONFIG=$HOME"/_out/talosconfig"                  
+export CONTROL_PLANE_IP="192.168.0.40"
+talosctl config endpoint $CONTROL_PLANE_IP
+talosctl config node $CONTROL_PLANE_IP

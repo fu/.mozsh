@@ -65,10 +65,12 @@ termtitle() {
 }
 
 
-precmd() {
-    # Set terminal title.
-    # termtitle precmd
 
-    # Set optional git part of prompt.
-    # git_prompt
-}
+$function k8s_delete_n_apply() {
+    if [ -z "$1" ]
+    then
+        echo "folder with yamls"
+    else
+        kubectl delete -f $PWD/$1
+        find $PWD/$1 -type f -name '*.yml' | grep -v '/secret' | xargs -n 1 kubectl apply -f
+    fi

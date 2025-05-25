@@ -34,18 +34,13 @@ if [[ -a /etc/zprofile ]]; then
     # source /etc/zprofile
 fi
 
-export PATH="/usr/local/opt/icu4c/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/fu/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 # Google Cloud SDK - Prefer sourcing via brew --prefix
 source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
 source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
 
-# The following lines for Google Cloud SDK are redundant if the brew --prefix versions above are working.
-# If you specifically need the version from Downloads, ensure the brew --prefix lines are commented out.
-# if [ -f '/Users/fu/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/fu/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-# if [ -f '/Users/fu/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/fu/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+export CPPFLAGS="-I/usr/local/opt/openjdk/include"
+[[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
