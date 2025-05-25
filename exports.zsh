@@ -20,7 +20,9 @@ export LANG=en_US.UTF-8
 
 export DOTNET_ROOT="/usr/local/share/dotnet"
 
-export REQUESTS_CA_BUNDLE="/Users/cf322940/.virtualenvs/fpreppy3-p311/lib/python3.11/site-packages/certifi/cacert.pem"
+# if [[ "$USER" == "cf322940" ]]; then
+#     export REQUESTS_CA_BUNDLE="/Users/cf322940/.virtualenvs/fpreppy3-p311/lib/python3.11/site-packages/certifi/cacert.pem"
+# fi
 # export CERT_PATH=/etc/ssl/certs/ZscalerRootCA.pem
 # export CERT_DIR=/etc/ssl/certs/
 # export SSL_CERT_FILE=${CERT_PATH} 
