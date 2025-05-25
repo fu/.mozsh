@@ -38,7 +38,7 @@ export PATH="/usr/local/opt/icu4c/bin:$PATH"
 export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/fu/.rd/bin:$PATH" # Assuming your username is 'fu' based on other paths
+export PATH="/Users/fu/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 # Google Cloud SDK - Prefer sourcing via brew --prefix

@@ -44,3 +44,13 @@ PAGER='less'
 # Watchlist
 WATCHFMT='%n %a at %t %w.'
 watch=( root )
+
+# Key bindings for word deletion with Option+Shift+Arrow
+
+# Option + Shift + Left Arrow: delete word left
+# Common sequence: \e[1;4D
+bindkey '\e[1;10D' backward-kill-word
+
+# Option + Shift + Right Arrow: delete word right
+# Common sequence: \e[1;4C
+bindkey '\e[1;10C' kill-word
