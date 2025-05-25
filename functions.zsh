@@ -74,3 +74,4 @@ $function k8s_delete_n_apply() {
         kubectl delete -f $PWD/$1
         find $PWD/$1 -type f -name '*.yml' | grep -v '/secret' | xargs -n 1 kubectl apply -f
     fi
+}

@@ -20,15 +20,14 @@ export LANG=en_US.UTF-8
 
 export DOTNET_ROOT="/usr/local/share/dotnet"
 
-# if [[ "$USER" == "cf322940" ]]; then
-#     export REQUESTS_CA_BUNDLE="/Users/cf322940/.virtualenvs/fpreppy3-p311/lib/python3.11/site-packages/certifi/cacert.pem"
-# fi
+if [[ "$USER" == "cf322940" ]]; then
+    export REQUESTS_CA_BUNDLE="/Users/cf322940/.virtualenvs/fpreppy3-p311/lib/python3.11/site-packages/certifi/cacert.pem"
+fi
 # export CERT_PATH=/etc/ssl/certs/ZscalerRootCA.pem
 # export CERT_DIR=/etc/ssl/certs/
 # export SSL_CERT_FILE=${CERT_PATH} 
 # export SSL_CERT_DIR=${CERT_DIR}
 # export REQUESTS_CA_BUNDLE=${CERT_PATH} 
-=======
 # Talos installation
 export TALOSCONFIG=$HOME"/_out/talosconfig"                  
 export CONTROL_PLANE_IP="192.168.0.40"
