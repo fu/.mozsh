@@ -31,5 +31,7 @@ fi
 # Talos installation
 export TALOSCONFIG=$HOME"/_out/talosconfig"                  
 export CONTROL_PLANE_IP="192.168.0.40"
-talosctl config endpoint $CONTROL_PLANE_IP
-talosctl config node $CONTROL_PLANE_IP
+if [[ "$USER" == "fu" ]]; then
+    talosctl config endpoint $CONTROL_PLANE_IP
+    talosctl config node $CONTROL_PLANE_IP
+fi
