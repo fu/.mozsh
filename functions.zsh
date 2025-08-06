@@ -27,12 +27,12 @@ set_cntlm_env () {
     fi
 }
 
-$function set_profile() {
+set_profile() {
     PROFILE=${1}
     echo "tell app \"Terminal\" to set current settings of first window to settings set \"${PROFILE}\""|osascript; };
 
 
-$function msconvert() {
+msconvert() {
     if [ -z "$1" ]
     then
         echo "Require raw file. Will use msconvert --zlib --inten32 --gzip as cmd line."
@@ -66,7 +66,7 @@ termtitle() {
 
 
 
-$function k8s_delete_n_apply() {
+k8s_delete_n_apply() {
     if [ -z "$1" ]
     then
         echo "folder with yamls"
@@ -75,3 +75,4 @@ $function k8s_delete_n_apply() {
         find $PWD/$1 -type f -name '*.yml' | grep -v '/secret' | xargs -n 1 kubectl apply -f
     fi
 }
+

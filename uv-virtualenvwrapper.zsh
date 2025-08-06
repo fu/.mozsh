@@ -103,8 +103,8 @@ __uvvirtualenvwrapper_setup() {
   elif [ -n "${ZSH_VERSION:-}" ]; then
     _virtualenvs() {
       local -a venvs
-      venvs=($(lsvirtualenv))
-      _describe 'virtualenvs' venvs
+      venvs=("${(@f)$(lsvirtualenv)}")
+      _multi_parts / venvs
     }
     compdef _virtualenvs workon rmvirtualenv
   fi

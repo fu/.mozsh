@@ -1,7 +1,6 @@
 
-autoload -U compinit
 autoload -Uz vcs_info
-compinit
+
 bindkey '^h' history-incremental-search-backward
 bindkey "\e[1D;" beginning-of-line
 #bindkey "^[[5~" up-line-or-history
