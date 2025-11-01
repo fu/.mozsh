@@ -34,5 +34,8 @@ PATH="/usr/local/opt/icu4c/sbin:$PATH"
 PATH="/usr/local/opt/openjdk/bin:$PATH"
 PATH="/Users/fu/.rd/bin:$PATH"
 PATH="/Users/cf322940/.local/bin:$PATH"
+# Added by LM Studio CLI (lms)
+PATH="$PATH:/Users/fu/.lmstudio/bin"
+# End of LM Studio CLI section
 
 export PATH

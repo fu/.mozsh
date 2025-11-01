@@ -43,4 +43,6 @@ source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
 source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
 
 export CPPFLAGS="-I/usr/local/opt/openjdk/include"
+[[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
+
 
