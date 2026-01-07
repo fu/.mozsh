@@ -30,6 +30,7 @@ PATH=$PATH:$HOME/Library/Python/3.10/bin
 PATH=$PATH:$HOME/Library/Python/3.9/bin
 PATH=$PATH:$HOME/Library/Python/3.8/bin
 PATH=$PATH:$HOME/Library/Python/3.7/bin
+PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
 PATH="/usr/local/opt/icu4c/bin:$PATH"
 PATH="/usr/local/opt/icu4c/sbin:$PATH"
 PATH="/usr/local/opt/openjdk/bin:$PATH"

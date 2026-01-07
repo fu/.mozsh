@@ -26,7 +26,7 @@ fi
 # export SSL_CERT_DIR=${CERT_DIR}
 # export REQUESTS_CA_BUNDLE=${CERT_PATH} 
 # Talos installation
-export TALOSCONFIG=$HOME"/_out/talosconfig"                  
+export TALOSCONFIG=$HOME"/talos-ha-cluster/config/talosconfig"                  
 export CONTROL_PLANE_IP="192.168.0.40"
 if [[ "$USER" == "fu" ]]; then
     talosctl config endpoint $CONTROL_PLANE_IP

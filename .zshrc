@@ -37,14 +37,17 @@ fi
 
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/cf322940/.rd/bin:$PATH"
+export PATH="/Users/$USER/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 # Google Cloud SDK - Prefer sourcing via brew --prefix
 source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
 source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
 
-export CPPFLAGS="-I/usr/local/opt/openjdk/include"
+# export CPPFLAGS="-I/usr/local/opt/openjdk/include"
 [[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
 
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/fu/.lmstudio/bin"
+# End of LM Studio CLI section
 

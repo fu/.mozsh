@@ -5,8 +5,8 @@ else
   compinit -C -i
 fi
 
-source $HOME/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $HOME/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 # if [[ "$USER" == "fu" ]]; then
 #   [[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
 # else
