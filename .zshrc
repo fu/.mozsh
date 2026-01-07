@@ -6,7 +6,8 @@
 #.  and have LOCAL_GIT_REPO point to the folder with the git
 #
 #   by C. Fufezan et al.
-
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 local LOCAL_GIT_REPO="$HOME/.mozsh"
 
@@ -36,6 +37,7 @@ fi
 
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/cf322940/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 # Google Cloud SDK - Prefer sourcing via brew --prefix

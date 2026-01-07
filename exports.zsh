@@ -15,9 +15,6 @@ export DYLD_LIBRARY_PATH=/usr/local/oracle/instantclient_18_1:$DYLD_LIBRARY_PATH
 export LDFLAGS="-L/usr/local/opt/gettext/lib"
 export CPPFLAGS="-I/usr/local/opt/gettext/include"
 
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-
 export DOTNET_ROOT="/usr/local/share/dotnet"
 
 if [[ "$USER" == "cf322940" ]]; then

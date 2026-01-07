@@ -24,6 +24,7 @@ PATH="$PATH:/usr/local/opt/libpq/bin:$HOME/homebrew/bin"
 # PATH="/usr/local/opt/gettext/bin:"$PATH
 #mono
 PATH="/usr/local/Cellar/mono/6.6.0.161/lib/mono/2.0-api:"$PATH
+PATH=$PATH:$HOME/Library/Python/3.14/bin
 PATH=$PATH:$HOME/Library/Python/3.11/bin
 PATH=$PATH:$HOME/Library/Python/3.10/bin
 PATH=$PATH:$HOME/Library/Python/3.9/bin
