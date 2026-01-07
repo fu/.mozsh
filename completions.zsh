@@ -12,3 +12,7 @@ source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.z
 # else
 #   [[ /Users/cf322940/.rd/bin/kubectl ]] && source <(kubectl completion zsh)
 # fi
+
+# Google Cloud SDK - Prefer sourcing via brew --prefix
+source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"

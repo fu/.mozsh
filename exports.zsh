@@ -32,3 +32,5 @@ if [[ "$USER" == "fu" ]]; then
     talosctl config endpoint $CONTROL_PLANE_IP
     talosctl config node $CONTROL_PLANE_IP
 fi
+export PATH="/Users/$USER/.rd/bin:$PATH"
+export PATH="$PATH:/Users/fu/.lmstudio/bin"
